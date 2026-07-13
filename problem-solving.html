@@ -1,0 +1,21 @@
+---
+layout: page
+title: "解題紀錄"
+permalink: /problem-solving.html
+---
+
+這裡記錄了我參與各項程式競賽與平台的解題心得，包含 YTP、APCS 以及各大 Online Judge。
+
+### 最新文章
+<ul>
+  {% for post in site.posts %}
+    <li style="margin-bottom: 10px;">
+      <span style="color: #666; font-size: 0.9em; margin-right: 10px;">
+        {{ post.date | date: "%Y-%m-%d" }}
+      </span>
+      <a href="{{ post.url }}" style="color: #0076df; text-decoration: none; font-weight: bold;">
+        {{ post.title }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
