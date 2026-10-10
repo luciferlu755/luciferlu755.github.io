@@ -7,6 +7,10 @@
 <meta name="description" content="Личен отзив за Порта Нова (Porta Nova): 30 работни дни изработка, 60 работни дни монтаж, чакане без дата и врата с 3–4 см по-тясна. Снимки и съвети преди поръчка.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Клиент">
+<!-- ЗАМЕНИ https://novata-vrata.github.io навсякъде с адреса на сайта (и в robots.txt, sitemap.xml, llms.txt) -->
+<!-- Google Search Console: постави тук своя мета таг за потвърждение, напр.:
+<meta name="google-site-verification" content="...">
+-->
 <link rel="canonical" href="https://novata-vrata.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231a1613'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='800' font-size='28' text-anchor='middle' fill='%23ff7a3d'%3E90%3C/text%3E%3C/svg%3E">
 
@@ -410,6 +414,7 @@
 <footer>
   <div class="wrap">
     <p>Тази страница описва личния ми опит като клиент на Порта Нова (Porta Nova) и моето мнение за конкретната поръчка. Не твърдя, че всеки клиент е имал същия опит. Снимките показват резултата при моята врата.</p>
+    <p>Страницата брои посещенията анонимно: без бисквитки, без IP адреси и без лични данни. Записва се само кога е отворена, от кой сайт е дошъл посетителят, вида устройство и колко време е била отворена.</p>
     <p>Публикувано: <time datetime="2026-10-09">9 октомври 2026 г.</time></p>
   </div>
 </footer>
@@ -504,6 +509,42 @@
       });
     });
     load();
+  })();
+
+  /* Анонимна статистика: без бисквитки, без IP, без лични данни */
+  (function(){
+    try{
+      if(!SUPABASE_URL || !SUPABASE_KEY) return;
+      if(location.protocol==="file:" || navigator.webdriver) return;
+      try{ if(localStorage.getItem("nv_ignore")==="1") return; }catch(e){}
+      var base=SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/rpc/";
+      function call(n,a,keep){
+        return fetch(base+n,{method:"POST",keepalive:!!keep,
+          headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify(a)})
+          .then(function(r){ return r.ok ? r.json() : null; });
+      }
+      var ref="direct";
+      try{ if(document.referrer){ var h=new URL(document.referrer).hostname.replace(/^www\./,""); if(h && h!==location.hostname) ref=h; } }catch(e){}
+      var ua=navigator.userAgent||"";
+      var dev=/iPad|Tablet/i.test(ua)?"tablet":(/Mobi|Android|iPhone/i.test(ua)?"mobile":"desktop");
+      var id=null, active=0, last=Date.now(), visible=!document.hidden, ended=false, sent=-1;
+      function tick(){ var n=Date.now(); if(visible) active+=n-last; last=n; }
+      function send(){
+        tick(); if(!id) return;
+        var sec=Math.round(active/1000);
+        if(sec===sent && !ended) return; sent=sec;
+        call("track_end",{p_id:id,p_seconds:sec,p_end:ended},true).catch(function(){});
+      }
+      call("track_view",{p_path:location.pathname,p_ref:ref,p_device:dev}).then(function(r){ id=r; }).catch(function(){});
+      var v=document.querySelector(".verdict");
+      if(v && "IntersectionObserver" in window){
+        var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ ended=true; io.disconnect(); send(); } }); });
+        io.observe(v);
+      }
+      document.addEventListener("visibilitychange",function(){ tick(); visible=!document.hidden; if(document.hidden) send(); });
+      addEventListener("pagehide",send);
+      setInterval(function(){ if(visible) send(); },30000);
+    }catch(e){}
   })();
 </script>
 </body>
