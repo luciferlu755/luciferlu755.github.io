@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://novata-vrata.github.io/sitemap.xml

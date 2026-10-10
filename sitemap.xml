@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://novata-vrata.github.io/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <image:image><image:loc>https://novata-vrata.github.io/img/porta-nova-vrata-banya.webp</image:loc></image:image>
+    <image:image><image:loc>https://novata-vrata.github.io/img/porta-nova-vrata-otstoyanie-kasa-stena.webp</image:loc></image:image>
+    <image:image><image:loc>https://novata-vrata.github.io/img/porta-nova-vrata-proluka-dryjka.webp</image:loc></image:image>
+    <image:image><image:loc>https://novata-vrata.github.io/img/porta-nova-vrata-gorna-proluka.webp</image:loc></image:image>
+  </url>
+</urlset>
