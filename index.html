@@ -75,6 +75,7 @@
     --bg:#f7f3ee; --surface:#fffdfa; --ink:#1a1613; --muted:#6f665d; --line:#e6ddd2;
     --accent:#d9480f; --accent-ink:#b23a0b; --accent-soft:#fbe9df;
     --dark:#1a1613; --dark-ink:#f7f3ee; --dark-muted:#b5aa9e;
+    --mark:rgba(255,122,61,.38);
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   }
   @media (prefers-color-scheme: dark){
@@ -82,6 +83,7 @@
       --bg:#12100e; --surface:#1b1815; --ink:#f3eee8; --muted:#a99f94; --line:#2c2722;
       --accent:#ff7a3d; --accent-ink:#ff9a6a; --accent-soft:#2a1a12;
       --dark:#0b0a09; --dark-ink:#f3eee8; --dark-muted:#a99f94;
+      --mark:rgba(255,122,61,.32);
     }
   }
   *{box-sizing:border-box}
@@ -92,7 +94,7 @@
   img{max-width:100%;height:auto;display:block}
 
   /* HERO */
-  .hero{background:var(--dark);color:var(--dark-ink);padding:80px 0 64px;position:relative;overflow:hidden}
+  .hero{background:var(--dark);color:var(--dark-ink);padding:80px 0 88px;position:relative;overflow:hidden}
   .hero:after{content:"90";position:absolute;right:-20px;bottom:-70px;font:900 300px/1 var(--sans);color:rgba(255,255,255,.04);pointer-events:none}
   h1{font:800 clamp(34px,7vw,58px)/1.06 var(--sans);letter-spacing:-.03em;margin:0 0 24px}
   h1 .kw{display:block;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
@@ -170,6 +172,34 @@
   .poll .stat{display:none;font:600 14px/1.4 var(--sans);color:var(--muted);margin:-8px 0 16px}
   .poll .stat.on{display:block}
 
+  /* FACT STRIP */
+  .facts{position:relative;z-index:2;margin-top:-44px;padding:0 0 8px !important}
+  .facts .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .fact{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:16px;
+    padding:20px 18px 18px;font-family:var(--sans);box-shadow:0 10px 30px rgba(26,22,19,.10)}
+  .fact b{display:block;font-size:40px;line-height:1;font-weight:800;letter-spacing:-.03em;color:var(--accent-ink)}
+  .fact span{display:block;margin-top:8px;font-size:15px;line-height:1.35;font-weight:600;color:var(--ink)}
+  .fact small{display:block;margin-top:6px;font-size:13px;line-height:1.4;color:var(--muted)}
+
+  /* MARKER */
+  .hl{background-color:transparent;background-image:linear-gradient(transparent 58%, var(--mark) 58%, var(--mark) 92%, transparent 92%);
+    background-repeat:no-repeat;background-size:100% 100%;padding:0 2px;color:inherit;font-weight:700}
+  .js-anim .hl{background-size:0% 100%;transition:background-size .9s cubic-bezier(.2,.7,.2,1)}
+  .js-anim .hl.on{background-size:100% 100%}
+  @media (prefers-reduced-motion: reduce){ .js-anim .hl{background-size:100% 100%;transition:none} }
+
+  /* PHOTO PINS */
+  .ann{position:relative}
+  .pin{position:absolute;left:var(--x);top:var(--y);width:0;height:0}
+  .pin i{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;background:#e03131;
+    border:3px solid #fff;box-shadow:0 0 0 0 rgba(224,49,49,.6);animation:pulse 2s infinite}
+  .pin em{position:absolute;top:-14px;left:16px;white-space:nowrap;font:700 13px/1 var(--sans);font-style:normal;
+    color:#fff;background:#e03131;padding:7px 10px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .pin.l em{left:auto;right:16px}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(224,49,49,.55)}70%{box-shadow:0 0 0 14px rgba(224,49,49,0)}100%{box-shadow:0 0 0 0 rgba(224,49,49,0)}}
+  @media (prefers-reduced-motion: reduce){ .pin i{animation:none} }
+  .gallery .pin em{font-size:12px;padding:6px 9px}
+
   footer{padding:40px 0 64px;font:14px/1.6 var(--sans);color:var(--muted)}
   hr{border:0;border-top:1px solid var(--line);margin:0}
 
@@ -180,6 +210,12 @@
     .counter i{font-size:20px}
     main section{padding:48px 0}
     .gallery{grid-template-columns:1fr}
+    .facts{margin-top:-30px}
+    .facts .wrap{grid-template-columns:1fr;gap:10px}
+    .fact{display:grid;grid-template-columns:auto 1fr;column-gap:16px;align-items:center;padding:16px}
+    .fact b{font-size:34px;grid-row:span 2}
+    .fact span{margin-top:0}
+    .fact small{margin-top:2px}
     .gallery img{aspect-ratio:auto}
     .verdict{padding:36px 22px}
     .calc,.poll{padding:22px 18px}
@@ -193,17 +229,18 @@
     <h1><span class="kw">Порта Нова – отзив от клиент</span>Една врата. <em>90 работни дни.</em> И чакане без ясна дата.</h1>
     <p>Това е личният ми опит с Порта Нова — от поръчката до монтажа. Споделям го, за да можете да зададете точните въпроси, преди да поръчате.</p>
     <a class="proof" id="proof" href="#glasuvane" hidden></a>
-    <div class="counter" aria-label="30 работни дни изработка плюс 60 работни дни монтаж, около 4,5 месеца чакане">
-      <div><b>30</b><small>работни дни<br>изработка</small></div>
-      <i aria-hidden="true">+</i>
-      <div><b>60</b><small>работни дни<br>монтаж</small></div>
-      <i aria-hidden="true">=</i>
-      <div class="total"><b>~4,5</b><small>месеца<br>чакане</small></div>
-    </div>
   </div>
 </header>
 
 <main>
+
+<section class="facts" aria-label="Накратко">
+  <div class="wrap">
+    <div class="fact"><b>~4,5 м.</b><span>чакане за една врата</span><small>30 + 60 работни дни по договор</small></div>
+    <div class="fact"><b>0</b><span>обаждания, когато беше готова</span><small>звъннах аз около 35-ия ден</small></div>
+    <div class="fact"><b>3–4 см</b><span>по-тясна от отвора</span><small>а размерите бяха взети от тях</small></div>
+  </div>
+</section>
 
 <article>
 <section>
@@ -218,21 +255,21 @@
 
     <div class="beat">
       <h3>Ден 30</h3>
-      <p>Срокът за изработка изтича. Телефонът мълчи.</p>
+      <p>Срокът за изработка изтича. <mark class="hl">Телефонът мълчи.</mark></p>
       <p>Чакам още няколко дни. Пак нищо.</p>
     </div>
 
     <div class="beat">
       <h3>Около ден 35</h3>
-      <p>Звъня аз. В магазина не могат да ми кажат на какъв етап е поръчката. След доста разпитване се оказва, че вратата е готова. Просто никой не ми се е обадил.</p>
+      <p>Звъня аз. В магазина не могат да ми кажат на какъв етап е поръчката. След доста разпитване се оказва, че вратата е готова. <mark class="hl">Просто никой не ми се е обадил.</mark></p>
       <p>По информацията, която получих от служител, поръчката още не била подадена към фирмата за монтаж. Разбрах, че 60-те работни дни за монтаж се броят от подаването към тази фирма.</p>
     </div>
 
     <div class="beat">
       <h3>Следващите седмици</h3>
       <p>Искам едно нещо: дата. Или поне първата възможна, за да знам дали да чакам, или да търся друго решение.</p>
-      <p>Звъня над три пъти. Отивам лично в офиса. Отговорът винаги е един: „Чакайте обаждане от фирмата за монтаж“.</p>
-      <p>Чакам седмица. После още няколко дни. Никой не се обажда.</p>
+      <p>Звъня над три пъти. Отивам лично в офиса. Отговорът винаги е един: <mark class="hl">„Чакайте обаждане от фирмата за монтаж“</mark>.</p>
+      <p>Чакам седмица. После още няколко дни. <mark class="hl">Никой не се обажда.</mark></p>
     </div>
 
     <p class="punch">Вече е октомври. Застудява. А в тази баня къпем бебето си.</p>
@@ -246,13 +283,18 @@
 
     <div class="beat">
       <h3>Монтажът</h3>
-      <p>Размерите на отвора бяха взети от Порта Нова. При монтажа обаче, според нашите измервания, вратата се оказа с <b>3–4 см по-тясна</b> и с 1–2 см по-висока от необходимото за отвора.</p>
-      <p>Монтажистите успяха да я сложат. Но около касата останаха пролуки, които не могат да се обърнат с плочки. Остава единственият вариант: ПВЦ профили.</p>
+      <p><mark class="hl">Размерите на отвора бяха взети от Порта Нова.</mark> При монтажа обаче, според нашите измервания, вратата се оказа с <mark class="hl">3–4 см по-тясна</mark> и с 1–2 см по-висока от необходимото за отвора.</p>
+      <p>Монтажистите успяха да я сложат. Но около касата останаха пролуки, които не могат да се обърнат с плочки. Остава единственият вариант: <mark class="hl">ПВЦ профили.</mark></p>
     </div>
 
     <figure class="lead-photo">
+      <div class="ann">
       <img src="img/porta-nova-vrata-banya.webp" width="1000" height="1333" loading="lazy" decoding="async"
            alt="Интериорна врата от Порта Нова, монтирана в баня с пролуки и монтажна пяна около касата, защото е по-тясна от отвора">
+      <span class="pin" style="--x:31%;--y:58%" aria-hidden="true"><i></i><em>пролука с пяна</em></span>
+      <span class="pin l" style="--x:71%;--y:30%" aria-hidden="true"><i></i><em>и тук</em></span>
+      <span class="pin" style="--x:58%;--y:5%" aria-hidden="true"><i></i><em>и отгоре</em></span>
+      </div>
       <figcaption>Вратата след монтажа. Пролуките с пяна около касата са заради разликата в размера.</figcaption>
     </figure>
 
@@ -268,18 +310,18 @@
     <p>Между касата и плочките има пролука, запълнена с пяна. Там трябваше да има чисто обръщане с плочки.</p>
     <div class="gallery">
       <figure>
-        <img src="img/porta-nova-vrata-otstoyanie-kasa-stena.webp" width="1000" height="1333" loading="lazy" decoding="async"
-             alt="Пролука между касата на врата от Порта Нова и плочките на стената, запълнена с монтажна пяна">
+        <div class="ann"><img src="img/porta-nova-vrata-otstoyanie-kasa-stena.webp" width="1000" height="1333" loading="lazy" decoding="async"
+             alt="Пролука между касата на врата от Порта Нова и плочките на стената, запълнена с монтажна пяна"><span class="pin" style="--x:44.5%;--y:46%" aria-hidden="true"><i></i><em>пяна вместо плочка</em></span></div>
         <figcaption>Пролука между каса и стена</figcaption>
       </figure>
       <figure>
-        <img src="img/porta-nova-vrata-proluka-dryjka.webp" width="1000" height="1333" loading="lazy" decoding="async"
-             alt="Дръжка на врата от Порта Нова и пролука с пяна между касата и плочките откъм бравата">
+        <div class="ann"><img src="img/porta-nova-vrata-proluka-dryjka.webp" width="1000" height="1333" loading="lazy" decoding="async"
+             alt="Дръжка на врата от Порта Нова и пролука с пяна между касата и плочките откъм бравата"><span class="pin l" style="--x:56%;--y:62%" aria-hidden="true"><i></i><em>пролука</em></span></div>
         <figcaption>Същото откъм бравата</figcaption>
       </figure>
       <figure>
-        <img src="img/porta-nova-vrata-gorna-proluka.webp" width="1000" height="1333" loading="lazy" decoding="async"
-             alt="Горният ъгъл на касата на врата от Порта Нова с открита пролука и пяна под плочките">
+        <div class="ann"><img src="img/porta-nova-vrata-gorna-proluka.webp" width="1000" height="1333" loading="lazy" decoding="async"
+             alt="Горният ъгъл на касата на врата от Порта Нова с открита пролука и пяна под плочките"><span class="pin" style="--x:60%;--y:13%" aria-hidden="true"><i></i><em>пролука отгоре</em></span><span class="pin" style="--x:41%;--y:60%" aria-hidden="true"><i></i><em>и отстрани</em></span></div>
         <figcaption>Горният ъгъл на касата</figcaption>
       </figure>
     </div>
@@ -377,6 +419,18 @@
 </footer>
 
 <script>
+  /* Маркер ефект: оцветява ключовите фрази, когато се появят на екрана */
+  (function(){
+    try{
+      if(!("IntersectionObserver" in window)) return;
+      document.documentElement.classList.add("js-anim");
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target);} });
+      },{rootMargin:"0px 0px -15% 0px"});
+      document.querySelectorAll(".hl").forEach(function(el){ io.observe(el); });
+    }catch(e){}
+  })();
+
   /* Калкулатор: днес + 90 работни дни */
   (function(){
     try{
